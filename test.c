@@ -32,7 +32,7 @@ int main(void)
     while (1) 
     {
 		//---example of control signal
-		while (!FAULT)
+		while (!FAULT)		//overcurrent protection 
 		{
 			if (get_average() > analog_max)
 			{
