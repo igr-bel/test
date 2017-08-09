@@ -15,11 +15,11 @@
 #define DIR_L (PORTB &= ~(1<<1))
 #define LEFT	  0
 #define RIGHT	  1
-#define SPEED	100			// 0 - 255  (8-bit T/C)
+#define SPEED	100		// 0 - 255  (8-bit T/C)
 
-#define analog_max	153		// Vref = 1V (10bit ADC - 1024 // 1 = 0.00097V) 
-							//0.5V = 512 / 30% = 153
-							//1V = 1024 / 30% = 307 
+#define analog_max 153		// Vref = 1V (10bit ADC - 1024 // 1 = 0.00097V) 
+				//0.5V = 512 / 30% = 153
+				//1V = 1024 / 30% = 307 
 //---------------------------------------------------------
 void init(void);
 unsigned char turn(unsigned char direction, unsigned char speed);
@@ -100,11 +100,12 @@ unsigned int get_average(void)
 	avrg_summ -= adc_res[cntr];
 	
 	//---read new value from ADC
-	ADMUX = ( 0x00 | (ADMUX & 0xF0) ); // REFS1:REFS0	0:0	/AREF
+	// REFS1:REFS0	0:0	/AREF
 	// ADLAR(bit 5) 0	/ADCH <- 2 high bit
+	ADMUX = ( 0x00 | (ADMUX & 0xF0) ); 
 	_delay_us(15);
-	ADCSRA |= 0x40;							// ADSC = 1
-	while ( 0 == (ADCSRA & 0x10) );			// while (ADIF == 0)
+	ADCSRA |= 0x40;						// ADSC = 1
+	while ( 0 == (ADCSRA & 0x10) );				// while (ADIF == 0)
 	adc_res[cntr] = ( (unsigned int) (ADCL + (ADCH<<8)) );
 	avrg_summ += adc_res[cntr];
 	
